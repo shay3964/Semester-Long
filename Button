@@ -1,0 +1,612 @@
+
+import javax.*;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+
+public class Button extends MP3 {
+	private static boolean checkStatus = true;
+	public static int musicCount =0;
+	private static JFrame frame = new JFrame("Button Button");;
+	static JPanel main = new JPanel();
+
+
+	public Button(String filename) {
+		super(filename);
+		// TODO Auto-generated constructor stub
+	}
+
+	//playlist
+	private static MP3 One = new MP3("E:\\ec\\Semester_long\\src\\Bohemian_Rhapsody.mp3");
+	private static MP3 Two = new MP3("E:\\ec\\last\\src\\last\\Twist_and_shout.mp3");
+	private static MP3 Three = new MP3("E:\\ec\\last\\src\\last\\Circles.mp3");
+	private static MP3 Four = new MP3("E:\\ec\\last\\src\\last\\Dancin.mp3");
+	private static MP3 Five = new MP3("E:\\ec\\last\\src\\last\\NoGuidance.mp3");
+	private static MP3 Six = new MP3("E:\\ec\\last\\src\\last\\SlowDancin.mp3");
+	private static MP3 Seven = new MP3("E:\\ec\\last\\src\\last\\Stayin_Alive.mp3");
+	private static MP3 Eight = new MP3("E:\\ec\\last\\src\\last\\Stranger_Thing.mp3");
+	private static MP3 Nine = new MP3("E:\\ec\\last\\src\\last\\ZEZE_-_KODAK_BLACK.mp3");
+	private static MP3 Ten = new MP3("E:\\ec\\last\\src\\last\\Bohemian_Rhapsody.mp3");
+
+	// Values to keep track of
+	private static int counter = 0;	
+	private static final int points = 10;
+	private static MP3 music;
+	private static boolean correctAnswer = false;
+
+	//Labels / Buttons
+	private static JButton welcome = new JButton("Welcome to GUESS THAT SONG!");
+	private static JTextArea textArea = new JTextArea("What song is playing?");
+	private static JLabel lblScore = new JLabel("");
+
+	private static JRadioButton option1 = new JRadioButton("");
+	private static JRadioButton option2 = new JRadioButton("");
+	private static JRadioButton option3 = new JRadioButton("");
+	private static JRadioButton option4 = new JRadioButton("");
+	private static ButtonGroup groupOptions = new ButtonGroup();
+
+	private static JButton btnPlay = new JButton("Play Song");
+	private static JButton btnNext = new JButton("Next");
+
+	public static void main(String [] args) {
+
+		frame.setSize(500,300);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		main.setBounds(0, 0, 500, 250);
+		frame.getContentPane().add(main);
+		main.setLayout(null);
+
+		//set layout
+		welcome.setBounds(0, 0, 500, 40);
+		textArea.setBounds(10, 50, 300, 30);
+		lblScore.setBounds(400, 100, 100, 30);
+		option1.setBounds(10, 100, 200, 30);
+		option2.setBounds(10, 140, 200, 30);
+		option3.setBounds(10, 180, 200, 30);
+		option4.setBounds(10, 220, 200, 30);
+		btnPlay.setBounds(350, 155, 120, 40);
+		btnNext.setBounds(350, 210, 120, 40);
+
+		//add
+		//Never change
+		main.add(welcome);
+		main.add(btnNext);
+		groupOptions.add(option1);
+		groupOptions.add(option2);
+		groupOptions.add(option3);
+		groupOptions.add(option4);
+
+		//Music
+		music = new MP3("");
+
+		// create a mouse event
+		btnPlay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(checkStatus) {
+					music.play();
+					checkStatus = false;
+				}
+				else {
+					music.close();
+					checkStatus = true;
+				}
+
+			}
+		});
+
+		//Next button
+		btnNext.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//check right answer
+				if(musicCount > 0) {
+					if(correctAnswer) {
+						System.out.println("Yay");
+						counter += points;
+					}
+					else {
+						System.out.println("You Suck");
+						if(counter > points) {
+							counter -= points;
+						}
+					}
+				}
+
+				//MusicChange/ Play/Stop
+				musicCount++;
+				if(musicCount == 1) {
+					insertMusic1(main);
+				}
+				else if(musicCount == 2) {
+					insertMusic2(main);
+				}
+
+
+			}
+		});
+
+	}
+
+	//Music interfaces
+	//Music1
+	public static void insertMusic1(JPanel pan) {
+
+		music = One;
+
+		pan.removeAll();
+
+		//add
+		//Never change
+		main.add(welcome);
+		main.add(textArea);
+		main.add(btnPlay);
+		main.add(btnNext);
+		//TextValue change
+		lblScore.setText("score = "+getCounter());
+		option1.setText("Queen");
+		option2.setText("Bohemian Rhapsody");
+		option3.setText("Freddie Mercury");
+		option4.setText("Dont Stop Me Now");
+		main.add(lblScore);
+		main.add(option1);
+		main.add(option2);
+		main.add(option3);
+		main.add(option4);
+
+		frame.repaint();
+
+
+		//Next button
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				option1.addActionListener(this);
+				option2.addActionListener(this);
+				option3.addActionListener(this);
+				option4.addActionListener(this);
+
+				//check which answer was selected
+				if(option2.isSelected()) {
+					correctAnswer = true;
+				}
+				else {
+					correctAnswer = false;
+				}
+			}
+		});
+
+	}
+
+
+	//Music2
+	public static void insertMusic2(JPanel pan) {
+
+		music = Two;
+		pan.removeAll();
+
+		//add
+		//Never change
+		main.add(welcome);
+		main.add(textArea);
+		main.add(btnPlay);
+		main.add(btnNext);
+		//TextValue change
+		lblScore.setText("score = "+getCounter());
+		option1.setText("Stairway to Heaven");
+		option2.setText("I Will Survive");
+		option3.setText("Twist And Shout");
+		option4.setText("I'll Be There");
+		main.add(lblScore);
+		main.add(option1);
+		main.add(option2);
+		main.add(option3);
+		main.add(option4);
+
+		frame.repaint();
+
+		//Next button
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				option1.addActionListener(this);
+				option2.addActionListener(this);
+				option3.addActionListener(this);
+				option4.addActionListener(this);
+
+				//check which answer was selected
+				if(option3.isSelected()) {
+					correctAnswer = true;
+				}
+				else {
+					correctAnswer = false;
+				}
+			}
+		});
+	}
+	
+	//Music3
+		public static void insertMusic3(JPanel pan) {
+
+			music = Three;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("Circles");
+			option2.setText("Free Bird");
+			option3.setText("No Guidance");
+			option4.setText("Walk This Way");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option1.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+
+		//Music4
+		public static void insertMusic4(JPanel pan) {
+
+			music = Four;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("Panini");
+			option2.setText("7 Rings");
+			option3.setText("Senorita");
+			option4.setText("Dancin");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option4.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+
+		
+		
+		//Music5
+		public static void insertMusic5(JPanel pan) {
+
+			music = Five;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("music 1 q2");
+			option2.setText("Slow Dancin");
+			option3.setText("music 3 q2");
+			option4.setText("music 4 q2");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option2.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+		
+		
+		//Music6
+		public static void insertMusic6(JPanel pan) {
+
+			music = Six;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("music 1 q2");
+			option2.setText("music 2 q2");
+			option3.setText("music 3 q2");
+			option4.setText("music 4 q2");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option3.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+		
+		
+		
+		//Music7
+		public static void insertMusic7(JPanel pan) {
+
+			music = Seven;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("music 1 q2");
+			option2.setText("music 2 q2");
+			option3.setText("music 3 q2");
+			option4.setText("music 4 q2");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option1.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+		
+		
+		//Music8
+		public static void insertMusic8(JPanel pan) {
+
+			music = Eight;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("music 1 q2");
+			option2.setText("music 2 q2");
+			option3.setText("music 3 q2");
+			option4.setText("music 4 q2");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option3.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+		
+		
+		//Music9
+		public static void insertMusic9(JPanel pan) {
+
+			music = Nine;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("music 1 q2");
+			option2.setText("music 2 q2");
+			option3.setText("music 3 q2");
+			option4.setText("music 4 q2");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option1.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+		
+		
+		//Music10
+		public static void insertMusic10(JPanel pan) {
+
+			music = Ten;
+			pan.removeAll();
+
+			//add
+			//Never change
+			main.add(welcome);
+			main.add(textArea);
+			main.add(btnPlay);
+			main.add(btnNext);
+			//TextValue change
+			lblScore.setText("score = "+getCounter());
+			option1.setText("music 1 q2");
+			option2.setText("music 2 q2");
+			option3.setText("music 3 q2");
+			option4.setText("music 4 q2");
+			main.add(lblScore);
+			main.add(option1);
+			main.add(option2);
+			main.add(option3);
+			main.add(option4);
+
+			frame.repaint();
+
+			//Next button
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					option1.addActionListener(this);
+					option2.addActionListener(this);
+					option3.addActionListener(this);
+					option4.addActionListener(this);
+
+					//check which answer was selected
+					if(option4.isSelected()) {
+						correctAnswer = true;
+					}
+					else {
+						correctAnswer = false;
+					}
+				}
+			});
+		}
+		
+	public static int getCounter() {
+		return counter;
+	}
+
+
+
+}
